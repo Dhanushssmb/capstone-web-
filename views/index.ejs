@@ -1,0 +1,83 @@
+<%- include('partials/header') %>
+<main>
+    <section class="hero">
+        <div class="container hero-content">
+            <span class="eyebrow">YOUR COMMUNITY, FOR LIFE</span>
+            <h1>Where your next chapter<br class="d-none d-md-block"> meets your alma mater.</h1>
+            <p>Reconnect with classmates, discover inspiring career journeys, and help the next generation find their way.</p>
+            <div class="d-flex flex-wrap gap-3">
+                <a class="btn btn-light btn-lg" href="<%= url('directory') %>">Explore the alumni directory</a>
+                <% if (!currentUser) { %>
+                    <a class="btn btn-outline-light btn-lg" href="<%= url('register') %>">Join the community</a>
+                <% } %>
+            </div>
+            <div class="hero-stat">
+                <strong><%= (stats.alumni || 0).toLocaleString() %>+</strong>
+                <span>verified alumni in our network</span>
+            </div>
+        </div>
+        <div class="hero-orb hero-orb-one"></div>
+        <div class="hero-orb hero-orb-two"></div>
+    </section>
+
+    <section class="section-space">
+        <div class="container">
+            <div class="row align-items-end g-3 mb-5">
+                <div class="col-lg-7">
+                    <span class="eyebrow text-primary">A NETWORK THAT GROWS WITH YOU</span>
+                    <h2 class="section-title">More than a directory.<br>It's a community.</h2>
+                </div>
+                <div class="col-lg-5">
+                    <p class="text-secondary mb-0">Celebrate where you've been, share where you're going, and stay connected to the people and place that shaped your journey.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <article class="feature-card">
+                        <div class="feature-icon">01</div>
+                        <h3>Find your people</h3>
+                        <p>Search a growing network by graduating class, department, location, and career.</p>
+                        <a href="<%= url('directory') %>">Browse alumni <span aria-hidden="true">→</span></a>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="feature-card">
+                        <div class="feature-icon">02</div>
+                        <h3>Share your journey</h3>
+                        <p>Keep your profile current and help fellow graduates learn from your experience.</p>
+                        <a href="<%= url(currentUser ? 'edit-profile' : 'register') %>">Build your profile <span aria-hidden="true">→</span></a>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="feature-card">
+                        <div class="feature-icon">03</div>
+                        <h3>Stay connected</h3>
+                        <p>Make meaningful connections across graduating years, disciplines, and industries.</p>
+                        <a href="<%= url('directory') %>">Meet the community <span aria-hidden="true">→</span></a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="community-strip section-space">
+        <div class="container">
+            <div class="row g-4 text-center">
+                <div class="col-4">
+                    <div class="stat-number"><%= (stats.alumni || 0).toLocaleString() %></div>
+                    <div class="stat-label">Approved alumni</div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-number"><%= (stats.departments || 0).toLocaleString() %></div>
+                    <div class="stat-label">Departments</div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-number"><%= (stats.companies || 0).toLocaleString() %></div>
+                    <div class="stat-label">Organizations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<%- include('partials/footer') %>
+

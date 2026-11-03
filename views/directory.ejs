@@ -1,0 +1,97 @@
+<%- include('partials/header') %>
+<main class="container page-wrap">
+    <div class="page-heading">
+        <span class="eyebrow text-primary">THE COMMUNITY</span>
+        <h1>Alumni directory</h1>
+        <p>Discover graduates by name, class, career, and location.</p>
+    </div>
+
+    <form method="get" action="<%= url('directory') %>" class="filter-panel panel-card mb-4">
+        <div class="row g-3 align-items-end">
+            <div class="col-sm-6 col-lg-4">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" id="name" name="name" value="<%= filters.name || '' %>" maxlength="100" placeholder="Search by name">
+            </div>
+            <div class="col-sm-6 col-lg-2">
+                <label class="form-label" for="year">Graduation year</label>
+                <input class="form-control" id="year" name="year" type="number" min="1950" max="<%= new Date().getFullYear() %>" value="<%= filters.year || '' %>" placeholder="e.g. 2020">
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <label class="form-label" for="department">Department</label>
+                <input class="form-control" id="department" name="department" value="<%= filters.department || '' %>" maxlength="120">
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <label class="form-label" for="company">Company</label>
+                <input class="form-control" id="company" name="company" value="<%= filters.company || '' %>" maxlength="160">
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <label class="form-label" for="job_role">Job role</label>
+                <input class="form-control" id="job_role" name="job_role" value="<%= filters.job_role || '' %>" maxlength="160">
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" id="location" name="location" value="<%= filters.location || '' %>" maxlength="120">
+            </div>
+            <div class="col-sm-12 col-lg-4 d-flex gap-2">
+                <button class="btn btn-primary flex-grow-1">Search</button>
+                <a class="btn btn-outline-secondary" href="<%= url('directory') %>">Clear</a>
+            </div>
+        </div>
+    </form>
+
+    <% if (yearError) { %>
+        <div class="alert alert-warning">Enter a graduation year between 1950 and <%= new Date().getFullYear() %>, or clear the year filter.</div>
+    <% } %>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">Community members</h2>
+        <span class="text-secondary small"><%= total.toLocaleString() %> result<%= total === 1 ? '' : 's' %></span>
+    </div>
+
+    <% if (!alumni || alumni.length === 0) { %>
+        <div class="empty-state">
+            <div class="empty-mark">⌕</div>
+            <h2>No alumni found</h2>
+            <p>Try changing or clearing your filters to see more graduates.</p>
+            <a class="btn btn-outline-primary" href="<%= url('directory') %>">Clear filters</a>
+        </div>
+    <% } else { %>
+        <div class="row g-4">
+            <% alumni.forEach(function(member) { %>
+                <div class="col-md-6 col-lg-4">
+                    <article class="alumni-card h-100">
+                        <div class="d-flex gap-3 align-items-center">
+                            <img class="avatar" src="<%= profileImageUrl(member.profile_photo) %>" alt="">
+                            <div>
+                                <h3 class="h5 mb-1"><%= member.full_name %></h3>
+                                <span class="text-secondary small"><%= member.department %> · <%= member.graduation_year %></span>
+                            </div>
+                        </div>
+                        <div class="card-divider"></div>
+                        <p class="mb-1"><%= member.job_role || '' %><%= member.job_role && member.current_company ? ' at ' : '' %><%= member.current_company || '' %></p>
+                        <p class="text-secondary small mb-3"><%= member.current_city || 'Location not listed' %></p>
+                        <a class="btn btn-outline-primary btn-sm" href="<%= url('profile?id=' + member.id) %>">View profile</a>
+                    </article>
+                </div>
+            <% }); %>
+        </div>
+
+        <% if (pages > 1) { %>
+            <nav aria-label="Alumni directory pages" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    <% for (let number = 1; number <= pages; number++) { 
+                        const queryObj = { ...filters, page: number };
+                        Object.keys(queryObj).forEach(k => (!queryObj[k] && delete queryObj[k]));
+                        const queryString = new URLSearchParams(queryObj).toString();
+                    %>
+                        <li class="page-item <%= number === page ? 'active' : '' %>">
+                            <a class="page-link" href="<%= url('directory?' + queryString) %>"><%= number %></a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } %>
+    <% } %>
+</main>
+<%- include('partials/footer') %>
+

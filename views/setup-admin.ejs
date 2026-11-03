@@ -1,0 +1,43 @@
+<%- include('partials/header') %>
+<main class="container page-wrap narrow-wrap">
+    <div class="page-heading">
+        <span class="eyebrow text-primary">ONE-TIME SETUP</span>
+        <h1>Create the first administrator</h1>
+        <p>This page is disabled automatically once an administrator account exists.</p>
+    </div>
+    <div class="alert alert-warning">After creating the account, you can remove or keep the setup secret safe.</div>
+
+    <% if (errors && errors.length > 0) { %>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                <% errors.forEach(function(err) { %>
+                    <li><%= err %></li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+
+    <form method="post" action="<%= url('setup-admin') %>" class="panel-card">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="mb-3">
+            <label class="form-label" for="setup_key">One-time setup key</label>
+            <input class="form-control" id="setup_key" name="setup_key" type="password" autocomplete="off" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="full_name">Administrator name</label>
+            <input class="form-control" id="full_name" name="full_name" maxlength="120" value="<%= values.full_name || '' %>" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="email">Email address</label>
+            <input class="form-control" id="email" name="email" type="email" maxlength="190" value="<%= values.email || '' %>" required>
+        </div>
+        <div class="mb-4">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" id="password" name="password" type="password" minlength="12" maxlength="72" autocomplete="new-password" required>
+            <div class="form-text">Use 12–72 characters.</div>
+        </div>
+        <button class="btn btn-primary w-100">Create administrator</button>
+    </form>
+</main>
+<%- include('partials/footer') %>
+

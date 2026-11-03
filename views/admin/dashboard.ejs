@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+<main class="container page-wrap">
+    <div class="page-heading">
+        <span class="eyebrow text-primary">ADMINISTRATION</span>
+        <h1>Alumni dashboard</h1>
+        <p>Review applications and keep the alumni network accurate and welcoming.</p>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+            <div class="metric-card">
+                <span>Registered alumni</span>
+                <strong><%= (counts.total || 0).toLocaleString() %></strong>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="metric-card">
+                <span>Approved</span>
+                <strong><%= (counts.approved || 0).toLocaleString() %></strong>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="metric-card">
+                <span>Pending review</span>
+                <strong><%= (counts.pending || 0).toLocaleString() %></strong>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="metric-card">
+                <span>Rejected</span>
+                <strong><%= (counts.rejected || 0).toLocaleString() %></strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <article class="panel-card">
+                <span class="eyebrow text-primary">REVIEW QUEUE</span>
+                <h2 class="h4 mt-2">Pending applications</h2>
+                <p class="text-secondary">Review submitted profile information and record a decision.</p>
+                <a class="btn btn-primary" href="<%= url('admin/pending') %>">Review pending applications</a>
+            </article>
+        </div>
+        <div class="col-lg-6">
+            <article class="panel-card">
+                <span class="eyebrow text-primary">NETWORK RECORDS</span>
+                <h2 class="h4 mt-2">Alumni and decisions</h2>
+                <p class="text-secondary">View all registrations and the approval decision history.</p>
+                <a class="btn btn-outline-primary" href="<%= url('admin/alumni') %>">View alumni and history</a>
+            </article>
+        </div>
+    </div>
+</main>
+<%- include('../partials/footer') %>
+

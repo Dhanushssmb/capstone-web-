@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+<main class="container page-wrap">
+    <div class="page-heading">
+        <span class="eyebrow text-primary">YOUR ALUMNI SPACE</span>
+        <h1>Hello, <%= profile.full_name %></h1>
+        <p>Manage your profile and stay connected to your alumni community.</p>
+    </div>
+
+    <% if (profile.approval_status === 'pending') { %>
+        <div class="status-banner status-pending">
+            <strong>Your application is awaiting review.</strong>
+            <span>You can update your profile while the administrator reviews it. Network features will be available after approval.</span>
+        </div>
+    <% } else if (profile.approval_status === 'rejected') { %>
+        <div class="status-banner status-rejected">
+            <strong>Your application was not approved.</strong>
+            <span><%= profile.rejection_reason ? profile.rejection_reason : 'Please contact your college administrator if you need more information.' %></span>
+        </div>
+    <% } else { %>
+        <div class="status-banner status-approved">
+            <strong>Your alumni profile is approved.</strong>
+            <span>Explore the directory and reconnect with fellow graduates.</span>
+        </div>
+    <% } %>
+
+    <div class="row g-4 mt-2">
+        <div class="col-lg-4">
+            <article class="panel-card text-center h-100">
+                <img class="avatar avatar-large mb-3" src="<%= profileImageUrl(profile.profile_photo) %>" alt="Profile photo of <%= profile.full_name %>">
+                <h2 class="h4"><%= profile.full_name %></h2>
+                <p class="text-secondary"><%= profile.department %> · Class of <%= profile.graduation_year %></p>
+                <a class="btn btn-outline-primary w-100" href="<%= url('profile?id=' + profile.id) %>">View profile</a>
+            </article>
+        </div>
+        <div class="col-lg-8">
+            <article class="panel-card h-100">
+                <span class="eyebrow text-primary">QUICK LINKS</span>
+                <h2 class="h3 mt-2">Keep your network up to date</h2>
+                <p class="text-secondary">A current profile makes it easier for classmates and fellow graduates to find you.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-primary" href="<%= url('edit-profile') %>">Edit my profile</a>
+                    <% if (profile.approval_status === 'approved') { %>
+                        <a class="btn btn-outline-primary" href="<%= url('directory') %>">Explore directory</a>
+                    <% } %>
+                </div>
+            </article>
+        </div>
+    </div>
+</main>
+<%- include('partials/footer') %>
+

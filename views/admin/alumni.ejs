@@ -1,0 +1,81 @@
+<%- include('../partials/header') %>
+<main class="container page-wrap">
+    <div class="page-heading">
+        <span class="eyebrow text-primary">ADMINISTRATION</span>
+        <h1>Alumni and approval history</h1>
+        <p>Review alumni registrations and the latest administrator decisions.</p>
+    </div>
+
+    <section class="panel-card mb-5">
+        <h2 class="h4 mb-3">Registrations</h2>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Class</th>
+                        <th>Status</th>
+                        <th>Decision date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% (people || []).forEach(function(person) { %>
+                        <tr>
+                            <td><%= person.full_name %></td>
+                            <td><%= person.email %></td>
+                            <td><%= person.department %></td>
+                            <td><%= person.graduation_year %></td>
+                            <td><span class="badge status-badge-<%= person.approval_status %>"><%= person.approval_status.charAt(0).toUpperCase() + person.approval_status.slice(1) %></span></td>
+                            <td><%= person.decision_at ? new Date(person.decision_at).toLocaleString() : '—' %></td>
+                            <td><a href="<%= url('profile?id=' + person.id) %>">View</a></td>
+                        </tr>
+                    <% }); %>
+                    <% if (!people || people.length === 0) { %>
+                        <tr>
+                            <td colspan="7" class="text-secondary">No alumni registrations yet.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel-card">
+        <h2 class="h4 mb-3">Approval history</h2>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Alumni</th>
+                        <th>Decision</th>
+                        <th>Reason</th>
+                        <th>Administrator</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% (history || []).forEach(function(entry) { %>
+                        <tr>
+                            <td><%= entry.alumni_name %></td>
+                            <td><%= entry.decision.charAt(0).toUpperCase() + entry.decision.slice(1) %></td>
+                            <td><%= entry.reason || '—' %></td>
+                            <td><%= entry.admin_name %></td>
+                            <td><%= entry.created_at ? new Date(entry.created_at).toLocaleString() : '—' %></td>
+                        </tr>
+                    <% }); %>
+                    <% if (!history || history.length === 0) { %>
+                        <tr>
+                            <td colspan="5" class="text-secondary">No decisions have been recorded.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <p class="form-text mb-0">The table shows the latest 100 logged decisions.</p>
+    </section>
+</main>
+<%- include('../partials/footer') %>
+

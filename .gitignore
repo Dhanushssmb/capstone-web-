@@ -1,0 +1,9 @@
+node_modules/
+.env
+.vercel/
+/config/config.local.php
+/uploads/profiles/*
+!/uploads/profiles/.htaccess
+!/uploads/profiles/.gitkeep
+.DS_Store
+Thumbs.db

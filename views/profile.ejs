@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+<main class="container page-wrap">
+    <a class="back-link" href="<%= url('directory') %>">← Back to alumni directory</a>
+    <% if (profile.approval_status !== 'approved') { %>
+        <div class="alert alert-warning mt-3">Administrator view: this profile is <%= profile.approval_status %> and is not public.</div>
+    <% } %>
+    <article class="profile-hero panel-card mt-3">
+        <img class="avatar avatar-profile" src="<%= profileImageUrl(profile.profile_photo) %>" alt="Profile photo of <%= profile.full_name %>">
+        <div class="profile-main">
+            <span class="eyebrow text-primary"><%= profile.department %> · CLASS OF <%= profile.graduation_year %></span>
+            <h1><%= profile.full_name %></h1>
+            <% if (profile.job_role || profile.current_company) { %>
+                <p class="profile-role"><%= profile.job_role || '' %><%= profile.job_role && profile.current_company ? ' at ' : '' %><%= profile.current_company || '' %></p>
+            <% } %>
+            <% if (profile.current_city) { %>
+                <p class="text-secondary"><%= profile.current_city %></p>
+            <% } %>
+            <% if (profile.bio) { %>
+                <p class="profile-bio"><%- profile.bio.replace(/\n/g, '<br>') %></p>
+            <% } %>
+            <% if (profile.linkedin_url) { %>
+                <a class="btn btn-outline-primary mt-2" href="<%= profile.linkedin_url %>" target="_blank" rel="noopener noreferrer">View LinkedIn profile</a>
+            <% } %>
+        </div>
+    </article>
+    <div class="row g-3 mt-2">
+        <div class="col-md-4">
+            <div class="detail-tile">
+                <span>College</span>
+                <strong><%= profile.college_name %></strong>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="detail-tile">
+                <span>Department</span>
+                <strong><%= profile.department %></strong>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="detail-tile">
+                <span>Graduation year</span>
+                <strong><%= profile.graduation_year %></strong>
+            </div>
+        </div>
+    </div>
+</main>
+<%- include('partials/footer') %>
+

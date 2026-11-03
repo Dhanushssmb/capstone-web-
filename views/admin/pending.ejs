@@ -1,0 +1,73 @@
+<%- include('../partials/header') %>
+<main class="container page-wrap">
+    <div class="page-heading">
+        <span class="eyebrow text-primary">ADMINISTRATION</span>
+        <h1>Pending applications</h1>
+        <p>Check the applicant's information before recording your decision.</p>
+    </div>
+
+    <% if (!applicants || applicants.length === 0) { %>
+        <div class="empty-state">
+            <h2>All caught up</h2>
+            <p>There are no applications waiting for review.</p>
+        </div>
+    <% } %>
+
+    <% (applicants || []).forEach(function(applicant) { %>
+        <article class="panel-card applicant-card mb-4">
+            <div class="d-flex flex-column flex-md-row gap-3 align-items-md-center mb-4">
+                <img class="avatar avatar-large" src="<%= profileImageUrl(applicant.profile_photo) %>" alt="">
+                <div>
+                    <span class="badge text-bg-warning">Pending</span>
+                    <h2 class="h3 mt-2 mb-1"><%= applicant.full_name %></h2>
+                    <span class="text-secondary">Submitted <%= new Date(applicant.created_at).toLocaleString() %></span>
+                </div>
+            </div>
+
+            <div class="row g-3 applicant-details">
+                <div class="col-sm-6 col-lg-3"><span>Email</span><strong><%= applicant.email %></strong></div>
+                <div class="col-sm-6 col-lg-3"><span>Phone</span><strong><%= applicant.phone || 'Not provided' %></strong></div>
+                <div class="col-sm-6 col-lg-3"><span>College</span><strong><%= applicant.college_name %></strong></div>
+                <div class="col-sm-6 col-lg-3"><span>Department</span><strong><%= applicant.department %></strong></div>
+                <div class="col-sm-6 col-lg-3"><span>Graduation year</span><strong><%= applicant.graduation_year %></strong></div>
+                <div class="col-sm-6 col-lg-3"><span>Company</span><strong><%= applicant.current_company || 'Not provided' %></strong></div>
+                <div class="col-sm-6 col-lg-3"><span>Job role</span><strong><%= applicant.job_role || 'Not provided' %></strong></div>
+                <div class="col-sm-6 col-lg-3"><span>City</span><strong><%= applicant.current_city || 'Not provided' %></strong></div>
+
+                <% if (applicant.linkedin_url) { %>
+                    <div class="col-12">
+                        <span>LinkedIn</span>
+                        <strong><a href="<%= applicant.linkedin_url %>" target="_blank" rel="noopener noreferrer"><%= applicant.linkedin_url %></a></strong>
+                    </div>
+                <% } %>
+
+                <% if (applicant.bio) { %>
+                    <div class="col-12">
+                        <span>Biography</span>
+                        <p class="mb-0"><%- applicant.bio.replace(/\n/g, '<br>') %></p>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="decision-actions mt-4">
+                <form method="post" action="<%= url('admin/action') %>" data-confirm="Approve this alumni application?">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="user_id" value="<%= applicant.id %>">
+                    <input type="hidden" name="decision" value="approved">
+                    <button class="btn btn-success">Approve application</button>
+                </form>
+
+                <form method="post" action="<%= url('admin/action') %>" data-confirm="Reject this alumni application?">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="user_id" value="<%= applicant.id %>">
+                    <input type="hidden" name="decision" value="rejected">
+                    <label class="visually-hidden" for="reason-<%= applicant.id %>">Optional rejection reason</label>
+                    <input class="form-control" id="reason-<%= applicant.id %>" name="rejection_reason" maxlength="500" placeholder="Optional rejection reason">
+                    <button class="btn btn-outline-danger">Reject application</button>
+                </form>
+            </div>
+        </article>
+    <% }); %>
+</main>
+<%- include('../partials/footer') %>
+

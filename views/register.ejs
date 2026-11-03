@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+<main class="container page-wrap narrow-wrap">
+    <div class="page-heading">
+        <span class="eyebrow text-primary">BECOME A MEMBER</span>
+        <h1>Create your alumni profile</h1>
+        <p>Your application will be reviewed by an administrator before network access is enabled.</p>
+    </div>
+
+    <% if (errors && errors.length > 0) { %>
+        <div class="alert alert-danger">
+            <strong>Please review the following:</strong>
+            <ul class="mb-0 mt-2">
+                <% errors.forEach(function(err) { %>
+                    <li><%= err %></li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+
+    <form method="post" action="<%= url('register') %>" enctype="multipart/form-data" class="panel-card">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="row g-3">
+            <%- include('partials/profile-form', { profile: values }) %>
+            <div class="col-12">
+                <label class="form-label" for="password">Password</label>
+                <input class="form-control" id="password" name="password" type="password" minlength="10" maxlength="72" autocomplete="new-password" required>
+                <div class="form-text">Use 10–72 characters.</div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary btn-lg w-100">Submit application</button>
+            </div>
+        </div>
+    </form>
+</main>
+<%- include('partials/footer') %>
+

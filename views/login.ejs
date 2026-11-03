@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+<main class="container page-wrap narrow-wrap">
+    <div class="page-heading">
+        <span class="eyebrow text-primary">WELCOME BACK</span>
+        <h1>Log in to your network</h1>
+        <p>Continue building meaningful connections with your alumni community.</p>
+    </div>
+
+    <% if (error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <form method="post" action="<%= url('login') %>" class="panel-card">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="mb-3">
+            <label class="form-label" for="email">Email address</label>
+            <input class="form-control" id="email" name="email" type="email" maxlength="190" autocomplete="username" value="<%= email || '' %>" required>
+        </div>
+        <div class="mb-4">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-primary btn-lg w-100">Log in</button>
+        <p class="text-center text-secondary mt-4 mb-0">New here? <a href="<%= url('register') %>">Create an alumni profile</a></p>
+    </form>
+</main>
+<%- include('partials/footer') %>
+
