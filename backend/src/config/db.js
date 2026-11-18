@@ -5,7 +5,7 @@ const env = require('./env');
 
 let pool = null;
 let useFallback = false;
-let fallbackFile = path.join(process.cwd(), 'data', 'db.json');
+let fallbackFile = path.resolve(__dirname, '../../data/db.json');
 
 // Initialize in-memory / file fallback store
 function getFallbackData() {

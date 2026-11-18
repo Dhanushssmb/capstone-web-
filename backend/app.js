@@ -8,17 +8,18 @@ const routes = require('./src/routes');
 
 const app = express();
 
-// View engine setup
-app.set('views', path.join(__dirname, 'views'));
+// View engine setup (pointing to frontend/views)
+const viewsPath = path.resolve(__dirname, '../frontend/views');
+app.set('views', viewsPath);
 app.set('view engine', 'ejs');
 
 // Parse incoming request bodies
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.json({ limit: '10mb' }));
 
-// Static asset folders
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Static asset folders (pointing to frontend/assets)
+app.use('/assets', express.static(path.resolve(__dirname, '../frontend/assets')));
+app.use('/uploads', express.static(path.resolve(__dirname, '../uploads')));
 
 // Cookie session (stateless & Vercel serverless compatible)
 app.use(cookieSession({

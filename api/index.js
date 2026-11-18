@@ -1,5 +1,5 @@
-const app = require('../app');
-const { initDb } = require('../config/db');
+const app = require('../backend/app');
+const { initDb } = require('../backend/src/config/db');
 
 let isInitialized = false;
 
@@ -14,4 +14,3 @@ module.exports = async (req, res) => {
     }
     return app(req, res);
 };
-

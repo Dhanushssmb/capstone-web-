@@ -2,10 +2,11 @@
   "name": "alumni-connect",
   "version": "1.0.0",
   "description": "Alumni tracking and networking site deployed easily to Vercel",
-  "main": "server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "start:backend": "cd backend && node server.js"
   },
   "keywords": [
     "alumni",
@@ -26,4 +27,3 @@
     "mysql2": "^3.12.0"
   }
 }
-
