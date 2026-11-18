@@ -132,11 +132,11 @@ async function fallbackQuery(sql, params = []) {
         }] : [];
     }
 
-    // 6. User by Email: SELECT id, password_hash, role FROM users WHERE email = ?
-    if (/SELECT id, password_hash, role FROM users WHERE email = \?/i.test(cleanSql)) {
+    // 6. User by Email: SELECT ... FROM users WHERE email = ?
+    if (/FROM users WHERE email = \?/i.test(cleanSql)) {
         const email = String(params[0]).toLowerCase();
         const user = data.users.find(u => u.email.toLowerCase() === email);
-        return user ? [{ id: user.id, password_hash: user.password_hash, role: user.role }] : [];
+        return user ? [user] : [];
     }
 
     // 7. Single profile: SELECT ... FROM users WHERE id = ? AND role = 'alumni'
@@ -176,17 +176,31 @@ async function fallbackQuery(sql, params = []) {
         return logs;
     }
 
-    // 11. Directory Search: SELECT COUNT(*) AS total FROM users WHERE ...
-    if (/SELECT COUNT\(\*\) AS total FROM users/i.test(cleanSql)) {
-        let filtered = data.users.filter(u => u.role === 'alumni' && u.approval_status === 'approved');
-        return [{ total: filtered.length }];
-    }
-
-    // 12. Directory Items: SELECT id, full_name, department... FROM users WHERE ...
-    if (/SELECT id, full_name, department/i.test(cleanSql) && /FROM users/i.test(cleanSql)) {
+    // 11 & 12. Directory Search & Items
+    if (/FROM users WHERE role = 'alumni' AND approval_status = 'approved'/i.test(cleanSql) || /SELECT COUNT\(\*\) AS total FROM users/i.test(cleanSql) || (/SELECT id, full_name, department/i.test(cleanSql) && /FROM users/i.test(cleanSql))) {
         let list = data.users.filter(u => u.role === 'alumni' && u.approval_status === 'approved');
+
+        params.forEach(p => {
+            if (typeof p === 'string' && p.startsWith('%') && p.endsWith('%')) {
+                const term = p.slice(1, -1).toLowerCase();
+                list = list.filter(u => 
+                    (u.full_name && u.full_name.toLowerCase().includes(term)) ||
+                    (u.department && u.department.toLowerCase().includes(term)) ||
+                    (u.current_company && u.current_company.toLowerCase().includes(term)) ||
+                    (u.job_role && u.job_role.toLowerCase().includes(term)) ||
+                    (u.current_city && u.current_city.toLowerCase().includes(term))
+                );
+            } else if (typeof p === 'number' && p >= 1950) {
+                list = list.filter(u => u.graduation_year === p);
+            }
+        });
+
+        if (/SELECT COUNT\(\*\) AS total/i.test(cleanSql)) {
+            return [{ total: list.length }];
+        }
+
         list.sort((a, b) => a.full_name.localeCompare(b.full_name));
-        return list.slice(0, 12);
+        return list;
     }
 
     // 13. Login attempts check
