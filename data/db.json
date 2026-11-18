@@ -1,0 +1,63 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "full_name": "Dr. Sarah Mitchell",
+      "email": "sarah.mitchell@alumni.edu",
+      "password_hash": "$2a$10$w3U6Uf7E5q5pS1lZ6Z0m..vW1v8k7y8q9z8x7c6v5b4n3m2a1s0d",
+      "role": "alumni",
+      "approval_status": "approved",
+      "phone": "+1 555-0199",
+      "college_name": "School of Engineering & Technology",
+      "department": "Computer Science & Engineering",
+      "graduation_year": 2018,
+      "current_company": "Google",
+      "job_role": "Staff Software Engineer",
+      "current_city": "San Francisco, CA",
+      "linkedin_url": "https://linkedin.com/in/sarah-mitchell-demo",
+      "bio": "Specializing in distributed systems, high-scale backend services, and cloud architecture. Passionate about mentoring aspiring engineers.",
+      "profile_photo": null,
+      "created_at": "2024-01-15T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "full_name": "David Chen",
+      "email": "david.chen@alumni.edu",
+      "password_hash": "$2a$10$w3U6Uf7E5q5pS1lZ6Z0m..vW1v8k7y8q9z8x7c6v5b4n3m2a1s0d",
+      "role": "alumni",
+      "approval_status": "approved",
+      "phone": "+1 555-0144",
+      "college_name": "School of Management",
+      "department": "Business Administration",
+      "graduation_year": 2020,
+      "current_company": "Amazon",
+      "job_role": "Senior Product Manager",
+      "current_city": "Seattle, WA",
+      "linkedin_url": "https://linkedin.com/in/david-chen-demo",
+      "bio": "Building customer-obsessed fintech products. Active in university tech and entrepreneurship alumni chapters.",
+      "profile_photo": null,
+      "created_at": "2024-02-10T12:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "full_name": "Ananya Sharma",
+      "email": "ananya.sharma@alumni.edu",
+      "password_hash": "$2a$10$w3U6Uf7E5q5pS1lZ6Z0m..vW1v8k7y8q9z8x7c6v5b4n3m2a1s0d",
+      "role": "alumni",
+      "approval_status": "approved",
+      "phone": "+1 555-0177",
+      "college_name": "School of Computing",
+      "department": "Data Science & Artificial Intelligence",
+      "graduation_year": 2022,
+      "current_company": "Microsoft",
+      "job_role": "AI Research Scientist",
+      "current_city": "New York, NY",
+      "linkedin_url": "https://linkedin.com/in/ananya-sharma-demo",
+      "bio": "Working on generative AI, foundation models, and multimodality. Love connecting with fellow researchers and alumni.",
+      "profile_photo": null,
+      "created_at": "2024-03-05T09:30:00.000Z"
+    }
+  ],
+  "approval_logs": [],
+  "login_attempts": []
+}
